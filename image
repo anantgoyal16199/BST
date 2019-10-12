@@ -1,0 +1,60 @@
+#include<iostream>
+#include<queue>
+using namespace std;
+struct node{
+int data;
+struct node*left,*right;
+};
+struct node*create(int data)
+{
+    struct node*temp=new node;
+    temp->data=data;
+    temp->left=temp->right=NULL;
+     return temp;
+}
+void image(struct node*temp)
+{
+    if(temp->left==NULL&&!(temp->right==NULL))
+    {
+        temp->left=temp->right;
+        temp->right=NULL;
+    }
+    else if(!(temp->left==NULL)&&temp->right==NULL)
+    {
+         temp->right=temp->left;
+        temp->left=NULL;
+    }
+    else if(temp->left==NULL&&temp->right==NULL)
+        return;
+    else{
+        swap(temp->left,temp->right);
+        image(temp->left);
+        image(temp->right);
+    }
+}
+void inorder(struct node*temp)
+{
+    if(!temp)
+        return;
+    else{
+        inorder(temp->left);
+        cout<<temp->data<<" ";
+        inorder(temp->right);
+    }
+}
+int main()
+{
+    struct node*root=new node;
+    root=create(8);
+    root->left=create(5);
+    root->left->left=create(4);
+    root->left->right=create(6);
+    root->right=create(12);
+    root->right->left=create(11);
+
+    inorder(root);
+    image(root);
+    cout<<"\n";
+    inorder(root);
+    return 0;
+}
